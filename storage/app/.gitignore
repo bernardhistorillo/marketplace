@@ -1,0 +1,6 @@
+*
+!public/
+!.gitignore
+!rascals.json
+!rascalsWithNewMetadata.json
+!updatedRascals.json
