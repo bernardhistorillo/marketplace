@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChenInkTokensTable extends Migration
+class CreateFavoritesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateChenInkTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('chen_ink_tokens', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->string('image');
-            $table->string('thumbnail');
-            $table->text('attributes');
+            $table->string('user_id');
+            $table->integer('token_id');
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateChenInkTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chen_ink_tokens');
+        Schema::dropIfExists('favorites');
     }
 }

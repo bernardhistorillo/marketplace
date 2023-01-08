@@ -363,7 +363,7 @@ $(document).on("submit", "#account-settings-form", async function(e) {
             contentType: false,
             processData: false,
             data: form_data
-        }).done(function(response) {
+        }).done(function() {
             initializeReloadButton("");
 
             $("#modal-success .message").text("Changes Saved");

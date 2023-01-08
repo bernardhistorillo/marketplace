@@ -11,13 +11,13 @@
                 <div class="" id="profile-guest-view">
                     <div class="d-flex flex-column align-items-center flex-sm-row align-items-sm-center">
                         <div class="pe-sm-5">
-                            <div class="background-image-cover rounded-circle mb-3 position-relative bg-color-18 profile-photo" id="profile-photo-container" style="padding-top:100%; min-width:180px; border:3px solid #aaaaaa; background-image:url('{{ ($marketAccount && $marketAccount['photo']) ? $marketAccount['photo'] : "https://avatars.dicebear.com/api/bottts/" . $account . ".svg?scale=85" }}')"></div>
+                            <div class="background-image-cover rounded-circle mb-3 position-relative bg-color-18 profile-photo" id="profile-photo-container" style="padding-top:100%; min-width:180px; border:3px solid #aaaaaa; background-image:url('{{ ($user && $user['photo']) ? $user['photo'] : "https://avatars.dicebear.com/api/bottts/" . $account . ".svg?scale=85" }}')"></div>
                         </div>
 
                         <div class="text-center text-sm-start">
                             <div class="neo-bold font-size-250 mb-2">
-                                @if($marketAccount && $marketAccount['name'])
-                                <span>{{ $marketAccount['name'] }}</span>
+                                @if($user && $user['name'])
+                                <span>{{ $user['name'] }}</span>
                                 @else
                                 <i>Name not set</i>
                                 @endif
@@ -30,8 +30,8 @@
                                 <input type="hidden" name="owned_tab_url" value="{{ route('profile.index', [$account, 'owned']) }}" />
                             </div>
                             <div class="font-size-120 mb-3">
-                                @if($marketAccount && $marketAccount['bio'])
-                                <span>{{ $marketAccount['bio'] }}</span>
+                                @if($user && $user['bio'])
+                                <span>{{ $user['bio'] }}</span>
                                 @else
                                 <i>Bio not set</i>
                                 @endif
@@ -63,17 +63,17 @@
                             <div class="col-lg-6 order-1 order-lg-0">
                                 <div class="mb-4 mb-lg-5">
                                     <label class="neo-bold mb-2" for="username">Username</label>
-                                    <input type="text" class="form-control py-2 py-lg-3 px-3" name="username" placeholder="Enter Username" id="username" value="{{ ($marketAccount) ? $marketAccount['name'] : '' }}" style="border-width:2px" required disabled />
+                                    <input type="text" class="form-control py-2 py-lg-3 px-3" name="username" placeholder="Enter Username" id="username" value="{{ ($user) ? $user['name'] : '' }}" style="border-width:2px" required disabled />
                                 </div>
 
                                 <div class="mb-4 mb-lg-5">
                                     <label class="neo-bold mb-2" for="email-address">Email Address</label>
-                                    <input type="text" class="form-control py-2 py-lg-3 px-3" name="email_address" placeholder="Enter Email Address" id="email-address" value="{{ ($marketAccount) ? $marketAccount['email'] : '' }}" style="border-width:2px" required disabled />
+                                    <input type="text" class="form-control py-2 py-lg-3 px-3" name="email_address" placeholder="Enter Email Address" id="email-address" value="{{ ($user) ? $user['email'] : '' }}" style="border-width:2px" required disabled />
                                 </div>
 
                                 <div class="mb-5">
                                     <label class="neo-bold mb-2" for="bio">Bio</label>
-                                    <input type="text" class="form-control py-2 py-lg-3 px-3" name="bio" placeholder="Enter who you are or your interests" id="bio" value="{{ ($marketAccount) ? $marketAccount['bio'] : '' }}" style="border-width:2px" disabled />
+                                    <input type="text" class="form-control py-2 py-lg-3 px-3" name="bio" placeholder="Enter who you are or your interests" id="bio" value="{{ ($user) ? $user['bio'] : '' }}" style="border-width:2px" disabled />
                                 </div>
 
                                 <div class="text-center text-lg-start mb-4 mb-lg-5">
@@ -84,7 +84,7 @@
                             <div class="col-lg-6 order-0 order-lg-1 mb-5 mb-lg-0">
                                 <div class="mx-4 mx-sm-5 px-5 px-lg-0 px-xxl-5">
                                     <div class="mx-sm-5 px-md-5 px-lg-4">
-                                        <div class="w-100 background-image-cover rounded-circle mb-4 position-relative bg-color-18 profile-photo" id="photo-container" style="padding-top:100%; border:3px solid #aaaaaa; background-image:url('{{ ($marketAccount && $marketAccount['photo']) ? $marketAccount['photo'] : "https://avatars.dicebear.com/api/bottts/" . $account . ".svg?scale=85&color=#000000" }}')"></div>
+                                        <div class="w-100 background-image-cover rounded-circle mb-4 position-relative bg-color-18 profile-photo" id="photo-container" style="padding-top:100%; border:3px solid #aaaaaa; background-image:url('{{ ($user && $user['photo']) ? $user['photo'] : "https://avatars.dicebear.com/api/bottts/" . $account . ".svg?scale=85&color=#000000" }}')"></div>
                                         <div class="text-center">
                                             <input type="file" class="d-none" name="photo" accept="image/*" />
                                             <button type="button" class="btn btn-custom-13 px-5 action-btn d-none" id="select-photo" style="border-radius:29px">Select Photo</button>

@@ -43,9 +43,5 @@ return [
     'rpc_url_bsc' => env('RPC_URL_BSC'),
     'rpc_url_matic' => env('RPC_URL_MATIC'),
 
-    'badge_claim_message' => env('BADGE_CLAIM_MESSAGE'),
     'add_to_favorites_message' => env('ADD_TO_FAVORITES_MESSAGE'),
-
-    'ownly_twitter_id' => env('OWNLY_TWITTER_ID'),
-    'mustachioverse_twitter_id' => env('MUSTACHIOVERSE_TWITTER_ID'),
 ];

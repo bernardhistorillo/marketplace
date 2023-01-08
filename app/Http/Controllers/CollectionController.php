@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Collection;
 use App\LaunchpadToken;
-use App\MarketItemFavorite;
+use App\Favorite;
 use App\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;

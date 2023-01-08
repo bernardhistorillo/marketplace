@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\MarketAccount;
-use App\TokenTransfer;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 
-class MarketAccountController extends Controller
+class UserController extends Controller
 {
     public function store_market_account(Request $request) {
         $request->validate([
@@ -16,15 +14,15 @@ class MarketAccountController extends Controller
             'signature' => 'required',
         ]);
 
-        $market_account = MarketAccount::where('address', $request->address)
+        $user = User::where('address', $request->address)
             ->where('signature', $request->signature)
             ->first();
 
-        if(!$market_account) {
-            $market_account = new MarketAccount;
-            $market_account->address = $request->address;
-            $market_account->signature = $request->signature;
-            $market_account->save();
+        if(!$user) {
+            $user = new User();
+            $user->address = $request->address;
+            $user->signature = $request->signature;
+            $user->save();
         }
 
         return response()->json([]);
@@ -40,7 +38,7 @@ class MarketAccountController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000'
         ]);
 
-        $market_account = MarketAccount::where('address', $request->address)
+        $user = User::where('address', $request->address)
             ->where('signature', $request->signature)
             ->first();
 
@@ -52,37 +50,37 @@ class MarketAccountController extends Controller
             $photo = config('app.url') . '/storage/' . $request->file('photo')->storeAs('account_photos/' . $request->address, $name, 'public');
         }
 
-        if(!$market_account) {
-            $market_account = new MarketAccount;
-            $market_account->address = $request->address;
-            $market_account->signature = $request->signature;
-            $market_account->name = $request->username;
-            $market_account->email = $request->email_address;
-            $market_account->bio = $request->bio;
+        if(!$user) {
+            $user = new User();
+            $user->address = $request->address;
+            $user->signature = $request->signature;
+            $user->name = $request->username;
+            $user->email = $request->email_address;
+            $user->bio = $request->bio;
 
             if($photo) {
-                $market_account->photo = $photo;
+                $user->photo = $photo;
             }
 
-            $market_account->save();
+            $user->save();
         } else {
-            $market_account->name = $request->username;
-            $market_account->email = $request->email_address;
-            $market_account->bio = $request->bio;
+            $user->name = $request->username;
+            $user->email = $request->email_address;
+            $user->bio = $request->bio;
 
             if($photo) {
-                $market_account->photo = $photo;
+                $user->photo = $photo;
             }
 
-            $market_account->update();
+            $user->update();
         }
 
-        $market_account = MarketAccount::select('name', 'email', 'bio', 'photo')
+        $user = User::select('name', 'email', 'bio', 'photo')
             ->where('address', $request->address)
             ->first();
 
         return response()->json([
-            'data' => $market_account
+            'data' => $user
         ]);
     }
 
@@ -91,12 +89,12 @@ class MarketAccountController extends Controller
             'address' => 'required',
         ]);
 
-        $market_account = MarketAccount::select('name', 'email', 'bio', 'photo')
+        $user = User::select('name', 'email', 'bio', 'photo')
             ->where('address', $request->address)
             ->first();
 
         return response()->json([
-            'data' => $market_account
+            'data' => $user
         ]);
     }
 

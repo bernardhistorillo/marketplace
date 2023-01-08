@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\ChenInkToken;
 use App\Collection;
 use App\GenesisBlockToken;
-use App\MarketItemFavorite;
+use App\Favorite;
 use App\Mustachio;
 use App\OhaToken;
 use App\RewardsToken;

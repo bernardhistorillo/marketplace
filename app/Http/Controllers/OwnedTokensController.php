@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\ChenInkToken;
 use App\Collection;
 use App\GenesisBlockToken;
-use App\MarketItemFavorite;
+use App\Favorite;
 use App\Mustachio;
 use App\MustachioPathfinderMarauder;
 use App\RewardsToken;
@@ -43,12 +43,12 @@ class OwnedTokensController extends Controller
             ->paginate(12);
 
         foreach($tokens as $i => $token) {
-            $token['favorite_count'] = MarketItemFavorite::where('contract_address', $token['contract_address'])
+            $token['favorite_count'] = Favorite::where('contract_address', $token['contract_address'])
                 ->where('token_id', $token['token_id'])
                 ->where('status', 1)
                 ->count();
 
-            $status = MarketItemFavorite::where('address', $address)
+            $status = Favorite::where('address', $address)
                 ->where('contract_address', $token['contract_address'])
                 ->where('token_id', $token['token_id'])
                 ->where('status', 1)

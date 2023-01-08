@@ -3,19 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Collection;
-use App\MarketAccount;
-use App\MarketItem;
-use App\MarketItemFavorite;
-use App\Mustachio;
-use App\MustachioPathfinderMarauder;
-use App\MustachioRascal;
-use App\TitansToken;
+use App\Favorite;
 use App\Token;
 use App\TokenTransfer;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class TokenController extends Controller
 {
@@ -123,35 +116,35 @@ class TokenController extends Controller
             'token_id' => 'required'
         ]);
 
-        $market_account = MarketAccount::where('address', $request->address)
+        $user = User::where('address', $request->address)
             ->first();
 
-        if(!$market_account) {
-            $market_account = new MarketAccount;
-            $market_account->address = $request->address;
-            $market_account->signature = $request->signature;
-            $market_account->save();
+        if(!$user) {
+            $user = new User();
+            $user->address = $request->address;
+            $user->signature = $request->signature;
+            $user->save();
         }
 
-        $market_item_favorite = MarketItemFavorite::where('address', 'LIKE', $request->address)
+        $marketItemFavorite = Favorite::where('address', 'LIKE', $request->address)
             ->where('contract_address', 'LIKE', $request->contract_address)
             ->where('token_id', $request->token_id)
             ->first();
 
-        if(!$market_item_favorite) {
-            $market_item_favorite = new MarketItemFavorite;
-            $market_item_favorite->address = $request->address;
-            $market_item_favorite->contract_address = $request->contract_address;
-            $market_item_favorite->token_id = $request->token_id;
-            $market_item_favorite->status = $request->status;
-            $market_item_favorite->save();
+        if(!$marketItemFavorite) {
+            $marketItemFavorite = new Favorite;
+            $marketItemFavorite->address = $request->address;
+            $marketItemFavorite->contract_address = $request->contract_address;
+            $marketItemFavorite->token_id = $request->token_id;
+            $marketItemFavorite->status = $request->status;
+            $marketItemFavorite->save();
         } else {
-            $market_item_favorite->status = $request->status;
-            $market_item_favorite->update();
+            $marketItemFavorite->status = $request->status;
+            $marketItemFavorite->update();
         }
 
         return response()->json([
-            'status' => $market_item_favorite['status']
+            'status' => $marketItemFavorite['status']
         ]);
     }
 
@@ -312,12 +305,12 @@ class TokenController extends Controller
         }
 
         foreach($tokens as $token) {
-            $token['favorite_count'] = MarketItemFavorite::where('contract_address', $collection['contract_address'])
+            $token['favorite_count'] = Favorite::where('contract_address', $collection['contract_address'])
                 ->where('token_id', $token['token_id'])
                 ->where('status', 1)
                 ->count();
 
-            $status = MarketItemFavorite::where('address', $request->address)
+            $status = Favorite::where('address', $request->address)
                 ->where('contract_address', $collection['contract_address'])
                 ->where('token_id', $token['token_id'])
                 ->where('status', 1)
@@ -366,12 +359,12 @@ class TokenController extends Controller
             ->where('tokens.token_id', $id)
             ->first();
 
-        $token['favorite_count'] = MarketItemFavorite::where('contract_address', $contract_address)
+        $token['favorite_count'] = Favorite::where('contract_address', $contract_address)
             ->where('token_id', $id)
             ->where('status', 1)
             ->count();
 
-        $status = MarketItemFavorite::where('address', $address)
+        $status = Favorite::where('address', $address)
             ->where('contract_address', $contract_address)
             ->where('token_id', $id)
             ->where('status', 1)

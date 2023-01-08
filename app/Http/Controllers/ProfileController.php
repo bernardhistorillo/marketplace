@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\MarketAccount;
-use App\MarketItemFavorite;
 use App\Token;
 use App\TokenTransfer;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -17,7 +15,7 @@ class ProfileController extends Controller
         $tab = $request->tab;
         $view = 'small-grid';
 
-        $marketAccount = MarketAccount::select('name', 'email', 'bio', 'photo')
+        $user = User::select('name', 'email', 'bio', 'photo')
             ->where('address', $account)
             ->first();
 
@@ -33,19 +31,19 @@ class ProfileController extends Controller
             $token['collection'] = $token->collection();
         }
 
-        return view('profile.index', compact('account', 'marketAccount', 'tab', 'view', 'tokens'));
+        return view('profile.index', compact('account', 'user', 'tab', 'view', 'tokens'));
     }
 
     public function getAccountContent(Request $request) {
         $account = $request->address;
 
-        $marketAccount = MarketAccount::select('name', 'email', 'bio', 'photo')
+        $user = User::select('name', 'email', 'bio', 'photo')
             ->where('address', 'LIKE', $account)
             ->first();
 
         $discountSignature = $this->checkAccountIfHasDiscount($account);
 
-        return view('includes.profile.account', compact('account', 'marketAccount', 'discountSignature'));
+        return view('includes.profile.account', compact('account', 'user', 'discountSignature'));
     }
 
     public function save(Request $request) {
@@ -57,7 +55,7 @@ class ProfileController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000'
         ]);
 
-        $market_account = MarketAccount::where('address', $request->account)
+        $user = User::where('address', $request->account)
             ->where('signature', $request->signature)
             ->first();
 
@@ -69,37 +67,37 @@ class ProfileController extends Controller
             $photo = config('app.url') . '/storage/' . $request->file('photo')->storeAs('account_photos/' . $request->account, $name, 'public');
         }
 
-        if(!$market_account) {
-            $market_account = new MarketAccount;
-            $market_account->address = $request->account;
-            $market_account->signature = $request->signature;
-            $market_account->name = $request->username;
-            $market_account->email = $request->email_address;
-            $market_account->bio = $request->bio;
+        if(!$user) {
+            $user = new User();
+            $user->address = $request->account;
+            $user->signature = $request->signature;
+            $user->name = $request->username;
+            $user->email = $request->email_address;
+            $user->bio = $request->bio;
 
             if($photo) {
-                $market_account->photo = $photo;
+                $user->photo = $photo;
             }
 
-            $market_account->save();
+            $user->save();
         } else {
-            $market_account->name = $request->username;
-            $market_account->email = $request->email_address;
-            $market_account->bio = $request->bio;
+            $user->name = $request->username;
+            $user->email = $request->email_address;
+            $user->bio = $request->bio;
 
             if($photo) {
-                $market_account->photo = $photo;
+                $user->photo = $photo;
             }
 
-            $market_account->update();
+            $user->update();
         }
 
-        $market_account = MarketAccount::select('name', 'email', 'bio', 'photo')
+        $user = User::select('name', 'email', 'bio', 'photo')
             ->where('address', $request->address)
             ->first();
 
         return response()->json([
-            'data' => $market_account
+            'data' => $user
         ]);
     }
 
@@ -107,11 +105,11 @@ class ProfileController extends Controller
         $account = $request->account;
         $address = $request->address;
 
-        $marketAccount = MarketAccount::select('name', 'email', 'bio', 'photo')
+        $user = User::select('name', 'email', 'bio', 'photo')
             ->where('address', $account)
             ->first();
 
-        return view('profile.account_settings', compact('account', 'address', 'marketAccount'));
+        return view('profile.account_settings', compact('account', 'address', 'user'));
     }
 
     public function getOwnedTokens(Request $request, $account) {
@@ -141,10 +139,10 @@ class ProfileController extends Controller
     public function getFavoritedTokens(Request $request, $account) {
         return Token::select('tokens.id', 'tokens.token_id', 'collection_id', 'tokens.name', 'tokens.description', 'image', 'thumbnail', 'attributes', 'priority', 'collections.contract_address', 'abi', 'collections.chain_id', 'supply', 'url_placeholder')
             ->leftJoin('collections', 'collection_id', 'collections.id')
-            ->join('market_item_favorites', function($join) use ($account) {
-                $join->on('collections.contract_address', 'LIKE', 'market_item_favorites.contract_address');
-                $join->on('tokens.token_id', 'market_item_favorites.token_id');
-                $join->on('tokens.token_id', 'market_item_favorites.token_id');
+            ->join('favorites', function($join) use ($account) {
+                $join->on('collections.contract_address', 'LIKE', 'favorites.contract_address');
+                $join->on('tokens.token_id', 'token_id');
+                $join->on('tokens.token_id', 'token_id');
                 $join->where('address', 'LIKE', $account);
                 $join->where('status', 1);
             })

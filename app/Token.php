@@ -92,14 +92,14 @@ class Token extends Model
     }
 
     public function favoriteCount() {
-        return MarketItemFavorite::where('contract_address', $this->collection()['contract_address'])
+        return Favorite::where('contract_address', $this->collection()['contract_address'])
             ->where('token_id', $this->token_id)
             ->where('status', 1)
             ->count();
     }
 
     public function favoriteStatus($account) {
-        $status = MarketItemFavorite::where('address', $account)
+        $status = Favorite::where('address', $account)
             ->where('contract_address', $this->collection()['contract_address'])
             ->where('token_id', $this->token_id)
             ->where('status', 1)
