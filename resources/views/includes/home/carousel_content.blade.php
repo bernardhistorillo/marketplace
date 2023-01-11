@@ -3,7 +3,7 @@
         <div class="position-relative">
             <h1 class="text-white rubik-bold font-size-280 font-size-lg-350 font-size-xl-450 font-size-xxl-500 text-center text-md-start mb-5">Mint and launch your NFT collection the easy way.</h1>
             <div class="text-center text-md-start">
-                <a href="{{ route('launchpad.index') }}" class="d-inline-block btn btn-custom-2 px-5 py-3 mx-1 font-size-110 font-size-sm-120 line-height-120" style="min-width:257px; border-radius:35px; letter-spacing:0.05em">LAUNCH ARTIST LAUNCHPAD</a>
+                <a href="#" class="d-inline-block btn btn-custom-2 px-5 py-3 mx-1 font-size-110 font-size-sm-120 line-height-120" style="min-width:257px; border-radius:35px; letter-spacing:0.05em">LAUNCH ARTIST LAUNCHPAD</a>
             </div>
         </div>
     </div>

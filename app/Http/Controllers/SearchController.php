@@ -40,7 +40,7 @@ class SearchController extends Controller
                 ->addSelect('name')
                 ->addSelect('contract_address')
                 ->addSelect('chain_id')
-                ->addSelect('url_placeholder')
+                ->addSelect('url')
                 ->addSelect(DB::raw('logo as thumbnail'))
                 ->addSelect(DB::raw('null as collection'))
                 ->addSelect(DB::raw('"collection" as type'))
@@ -56,7 +56,7 @@ class SearchController extends Controller
                 ->addSelect('name')
                 ->addSelect('contract_address')
                 ->addSelect('chain_id')
-                ->addSelect('url_placeholder')
+                ->addSelect('url')
                 ->addSelect(DB::raw('logo as thumbnail'))
                 ->addSelect(DB::raw('null as collection'))
                 ->addSelect(DB::raw('"collection" as type'))
@@ -66,7 +66,7 @@ class SearchController extends Controller
                 ->addSelect('tokens.name')
                 ->addSelect('contract_address')
                 ->addSelect('chain_id')
-                ->addSelect(DB::raw('null as url_placeholder'))
+                ->addSelect(DB::raw('null as url'))
                 ->addSelect('thumbnail')
                 ->addSelect(DB::raw('collections.name as collection'))
                 ->addSelect(DB::raw('"token" as type'))
@@ -93,8 +93,8 @@ class SearchController extends Controller
             if($item['type'] == 'token') {
                 $item['url'] = config('ownly.marketplace_url') . '?network=' . $network . '&contract=' . $item['contract_address'] . '&token=' . $item['id'];
             } else {
-                if($item['url_placeholder']) {
-                    $item['url'] = config('ownly.marketplace_url') . '?collection=' . $item['url_placeholder'];
+                if($item['url']) {
+                    $item['url'] = config('ownly.marketplace_url') . '?collection=' . $item['url'];
                 } else {
                     $item['url'] = config('ownly.marketplace_url') . '?collection=' . $network . ':' . $item['contract_address'];
                 }

@@ -29,7 +29,7 @@ class TokenController extends Controller
             }
         }
 
-        $collection = Collection::where('url_placeholder', $contractAddress)
+        $collection = Collection::where('url', $contractAddress)
             ->first();
 
         if(!$collection) {
@@ -67,7 +67,7 @@ class TokenController extends Controller
             $token->save();
         }
 
-        if($collection['url_placeholder'] != 'rewards') {
+        if($collection['url'] != 'rewards') {
             $token->updateTokenTransaction();
         }
 
@@ -95,24 +95,24 @@ class TokenController extends Controller
     public function getTokenActionButtons(Request $request) {
         $token = Token::find($request->token);
 
-        $account = $request->address;
+        $user = User::where('address', $request->address)
+            ->first();
 
         $token['token_transfer'] = $token->tokenTransfer();
-        $token['favorite_status'] = $token->favoriteStatus($account);
+        $token['favorite_status'] = ($user) ? $token->favoriteStatus($user) : false;
         $token['owner'] = $token->owner();
         $token['marketItem'] = $token->marketItem();
 
         $collection = $token->collection();
         $token->updateTokenTransaction();
 
-        return view('token.action_buttons', compact('collection', 'token', 'account'));
+        return view('token.action_buttons', compact('collection', 'token', 'user'));
     }
 
     public function updateFavoriteStatus(Request $request) {
         $request->validate([
             'address' => 'required',
             'signature' => 'required',
-            'contract_address' => 'required',
             'token_id' => 'required'
         ]);
 
@@ -126,15 +126,13 @@ class TokenController extends Controller
             $user->save();
         }
 
-        $marketItemFavorite = Favorite::where('address', 'LIKE', $request->address)
-            ->where('contract_address', 'LIKE', $request->contract_address)
+        $marketItemFavorite = Favorite::where('user_id', $user['id'])
             ->where('token_id', $request->token_id)
             ->first();
 
         if(!$marketItemFavorite) {
             $marketItemFavorite = new Favorite;
-            $marketItemFavorite->address = $request->address;
-            $marketItemFavorite->contract_address = $request->contract_address;
+            $marketItemFavorite->user_id = $user['id'];
             $marketItemFavorite->token_id = $request->token_id;
             $marketItemFavorite->status = $request->status;
             $marketItemFavorite->save();
@@ -153,35 +151,13 @@ class TokenController extends Controller
             'value' => 'required|string'
         ]);
 
-//        $response = Http::get(config('ownly.nodejs_url') . '/web3/isAddress/' . $request->value);
-//
-//        if(isset($response['isAddress']) && $response['isAddress']) {
-//            $contractAddress = $request->value;
-//
-//            $this->fetchTokenData($contractAddress, 0);
-//
-//            $result = Collection::addSelect('id')
-//                ->addSelect('name')
-//                ->addSelect('contract_address')
-//                ->addSelect('chain_id')
-//                ->addSelect('url_placeholder')
-//                ->addSelect(DB::raw('logo as thumbnail'))
-//                ->addSelect(DB::raw('null as collection'))
-//                ->addSelect(DB::raw('"collection" as type'))
-//                ->addSelect(DB::raw('"collection" as type'))
-//                ->where('contract_address', 'LIKE', $contractAddress)
-//                ->limit(20)
-//                ->orderBy('type', 'asc')
-//                ->orderBy('name', 'asc')
-//                ->get();
-//        } else {
         $search = '%' . $request->value . '%';
 
         $collections = Collection::addSelect('id')
             ->addSelect('name')
             ->addSelect('contract_address')
             ->addSelect('chain_id')
-            ->addSelect('url_placeholder')
+            ->addSelect('url')
             ->addSelect(DB::raw('logo as thumbnail'))
             ->addSelect(DB::raw('null as collection'))
             ->addSelect(DB::raw('"collection" as type'))
@@ -191,7 +167,7 @@ class TokenController extends Controller
             ->addSelect('tokens.name')
             ->addSelect('contract_address')
             ->addSelect('chain_id')
-            ->addSelect('url_placeholder')
+            ->addSelect('url')
             ->addSelect('thumbnail')
             ->addSelect(DB::raw('collections.name as collection'))
             ->addSelect(DB::raw('"token" as type'))
@@ -206,9 +182,9 @@ class TokenController extends Controller
 
         foreach($result as $item) {
             if($item['type'] == 'token') {
-                $item['url'] = config('ownly.marketplace_url') . $item['url_placeholder'] . '/' . $item['id'];
+                $item['url'] = config('ownly.marketplace_url') . $item['url'] . '/' . $item['id'];
             } else {
-                $item['url'] = config('ownly.marketplace_url') . $item['url_placeholder'];
+                $item['url'] = config('ownly.marketplace_url') . $item['url'];
             }
 
             unset($item['contract_address']);
@@ -223,7 +199,7 @@ class TokenController extends Controller
     public function getTokens(Request $request) {
         $contract_address = $request->contractAddress;
 
-        $collection = Collection::where('url_placeholder', $contract_address)
+        $collection = Collection::where('url', $contract_address)
             ->first();
 
         if(!$collection) {
@@ -246,7 +222,7 @@ class TokenController extends Controller
 
         if(!$collection) {
             if(count($contract_address) == 2) {
-                $collection = Collection::where('url_placeholder', $contract_address[1])
+                $collection = Collection::where('url', $contract_address[1])
                     ->first();
             }
         }

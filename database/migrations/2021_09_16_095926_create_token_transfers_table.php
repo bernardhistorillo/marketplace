@@ -24,6 +24,7 @@ class CreateTokenTransfersTable extends Migration
             $table->string('currency')->nullable();
             $table->string('transaction_hash');
             $table->dateTime('signed_at');
+            $table->tinyInteger('is_current')->default(0);
             $table->timestamps();
         });
     }

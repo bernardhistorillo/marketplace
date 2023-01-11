@@ -108,10 +108,10 @@
                         <tr>
                             <td class="align-middle" style="min-width:100px">{{ $sale['formatted_date'] }}</td>
                             <td class="align-middle">
-                                <a class="link-color-4 text-decoration-none" href="{{ route('collection.index', $sale['collection']['url_placeholder']) }}">{{ $sale['collection']['name'] }}</a>
+                                <a class="link-color-4 text-decoration-none" href="{{ route('collection.index', $sale['collection']['url']) }}">{{ $sale['collection']['name'] }}</a>
                             </td>
                              <td class="align-middle">
-                                <a class="link-color-4 text-decoration-none" href="{{ route('token.index', [$sale['collection']['url_placeholder'], $sale['token_id']]) }}">{{ $sale['token']['name'] }}</a>
+                                <a class="link-color-4 text-decoration-none" href="{{ route('token.index', [$sale['collection']['url'], $sale['token_id']]) }}">{{ $sale['token']['name'] }}</a>
                             </td>
                             <td class="align-middle text-end">{{ $sale['token_id'] }}</td>
                             <td class="align-middle">

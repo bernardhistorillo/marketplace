@@ -1,5 +1,7 @@
 <?php
 
+use App\Collection;
+
 function shortenAddress($address, $prefixCount, $postfixCount) {
     $prefix = substr($address, 0, $prefixCount);
     $postfix = substr($address, strlen($address) - $postfixCount, strlen($address));
@@ -23,4 +25,9 @@ function toEther($value) {
     }
 
     return $new_value;
+}
+
+function collections() {
+    return $collections = Collection::orderBy('name')
+        ->get();
 }

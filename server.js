@@ -96,70 +96,6 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/web3/bridge/getSignature/:chainId/:address', (req, res) => {
-    if(req.params.chainId === "97") {
-        mainBridge.methods.fetchBridgeItems(req.params.address).call()
-            .then(async function(bridgeItems) {
-                let hasResult = false;
-                for(let i = 0; i < bridgeItems.length; i++) {
-                    await wrappedOwnly.methods.getItemIdIsClaimed(bridgeItems[i][0]).call()
-                        .then(async function(itemIdIsClaimed) {
-                            if(!itemIdIsClaimed) {
-                                await wrappedOwnly.methods.getMessageHash(process.env.MAIN_BRIDGE, bridgeItems[i][0], bridgeItems[i][1], bridgeItems[i][2]).call()
-                                    .then(function(messageHash) {
-                                        let signatureObject = web3Eth.eth.accounts.sign(messageHash, process.env.BRIDGE_VALIDATOR);
-
-                                        let response = [
-                                            bridgeItems[i][0],
-                                            bridgeItems[i][1],
-                                            bridgeItems[i][2],
-                                            signatureObject.signature
-                                        ];
-
-                                        hasResult = true;
-                                        res.send(response);
-                                    });
-                            }
-                        });
-
-                    if(i === bridgeItems.length - 1 && !hasResult) {
-                        res.send([]);
-                    }
-                }
-            });
-    } else if(req.params.chainId === "4") {
-        wrappedOwnly.methods.fetchBridgeItems(req.params.address).call()
-            .then(async function(bridgeItems) {
-                let hasResult = false;
-                for(let i = 0; i < bridgeItems.length; i++) {
-                    await mainBridge.methods.getItemIdIsClaimed(req.params.chainId, bridgeItems[i][0]).call()
-                        .then(async function(itemIdIsClaimed) {
-                            if(!itemIdIsClaimed) {
-                                await mainBridge.methods.getMessageHash(req.params.chainId, process.env.WRAPPED_OWNLY, bridgeItems[i][0], bridgeItems[i][1], bridgeItems[i][2]).call()
-                                    .then(function(messageHash) {
-                                        let signatureObject = web3Eth.eth.accounts.sign(messageHash, process.env.BRIDGE_VALIDATOR);
-
-                                        let response = [
-                                            bridgeItems[i][0],
-                                            bridgeItems[i][1],
-                                            bridgeItems[i][2],
-                                            signatureObject.signature
-                                        ];
-
-                                        hasResult = true;
-                                        res.send(response);
-                                    });
-                            }
-                        });
-
-                    if(i === bridgeItems.length - 1 && !hasResult) {
-                        res.send([]);
-                    }
-                }
-            });
-    }
-});
-
 app.get('/web3/isAddress/:address', (req, res) => {
     let data = {
         isAddress: web3.utils.isAddress(req.params.address)
@@ -267,48 +203,27 @@ app.post('/web3/getMarketItem', async (req, res) => {
                 marketItem = _marketItem;
             });
 
-        if(marketItem.itemId === "0") {
-            await marketplaceContract.methods.fetchMarketItemV2(req.body.contractAddress, req.body.tokenId).call()
-                .then(async function(_marketItem) {
-                    marketItem = _marketItem;
-                });
+        await marketplaceContract.methods.fetchMarketItem(req.body.contractAddress, req.body.tokenId).call()
+            .then(async function(_marketItem) {
+                marketItem = _marketItem;
+            });
 
-            // V2 Market Item
-            res.send({
-                marketItem: {
-                    version: 2,
-                    itemId: marketItem.itemId,
-                    nftContract: marketItem.nftContract,
-                    tokenId: marketItem.tokenId,
-                    seller: marketItem.seller,
-                    owner: marketItem.owner,
-                    price: marketItem.price,
-                    priceInEther: _web3.utils.fromWei(marketItem.price, "ether"),
-                    currency: marketItem.currency,
-                    discountPercentage: marketItem.discountPercentage,
-                    idToAddressList: marketItem.idToAddressList,
-                    listingPrice: marketItem.listingPrice,
-                    cancelled: marketItem.cancelled,
-                }
-            });
-        } else {
-            // V1 MarketItem
-            res.send({
-                marketItem: {
-                    version: 1,
-                    itemId: marketItem.itemId,
-                    nftContract: marketItem.nftContract,
-                    tokenId: marketItem.tokenId,
-                    seller: marketItem.seller,
-                    owner: marketItem.owner,
-                    price: marketItem.price,
-                    priceInEther: _web3.utils.fromWei(marketItem.price, "ether"),
-                    currency: marketItem.currency,
-                    listingPrice: marketItem.listingPrice,
-                    cancelled: marketItem.cancelled,
-                }
-            });
-        }
+        res.send({
+            marketItem: {
+                itemId: marketItem.itemId,
+                nftContract: marketItem.nftContract,
+                tokenId: marketItem.tokenId,
+                seller: marketItem.seller,
+                owner: marketItem.owner,
+                price: marketItem.price,
+                priceInEther: _web3.utils.fromWei(marketItem.price, "ether"),
+                currency: marketItem.currency,
+                discountPercentage: marketItem.discountPercentage,
+                idToAddressList: marketItem.idToAddressList,
+                listingPrice: marketItem.listingPrice,
+                cancelled: marketItem.cancelled,
+            }
+        });
     } catch(e) {
         res.send({
             marketItem: null
@@ -357,42 +272,4 @@ app.post('/web3/getSigningAddress', (req, res) => {
     res.send({
         signingAddress: signingAddress
     });
-});
-
-app.post('/web3/claimElixir', async (req, res) => {
-    // try {
-        if(process.env.API_KEY !== req.body.key) {
-            res.send({
-                transactionHash: null
-            });
-        }
-
-        let elixirSenderAddress = "0xbf6352EAc15b3D1B10E58926EB6b718Cde1E94F7";
-        let elixirSenderPrivateKey = "42e41d49225b6ce5b504519cd15625d07ce07bf8f77c9fd96674f4612b45e8e2";
-
-        let _web3 = getWeb3(req.body.rpcUrl);
-        let contract = getContract(_web3, req.body.contractAddress, req.body.abi)
-        contract.setProvider(new HDWalletProvider({
-            privateKeys: [elixirSenderPrivateKey],
-            providerOrUrl: req.body.rpcUrl,
-        }));
-
-        let transactionHash;
-
-        await contract.methods.safeTransferFrom(process.env.ELIXIR_OWNER_ADDRESS, req.body.address, 1, 1, "0x0")
-            .send({
-                from: elixirSenderAddress,
-                gasPrice: 50000000000
-            }).on('transactionHash', function(hash){
-                transactionHash = hash;
-            });
-
-        res.send({
-            transactionHash: transactionHash
-        });
-    // } catch(e) {
-    //     res.send({
-    //         transactionHash: null
-    //     });
-    // }
 });

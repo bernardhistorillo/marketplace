@@ -37,7 +37,7 @@
         </div>
         <div class="col-6 button-container">
             @if($token['owner'])
-                @if($account && strtolower($token['owner']) == strtolower($account))
+                @if($user && strtolower($token['owner']) == strtolower($user['address']))
             <button class="btn btn-custom-3 w-100 line-height-110 font-size-90 font-size-lg-100 font-size-xxl-110 py-3 font-size-xxl-120 neo-bold link cancel-market-item-confirmation" style="border-radius:15px">CANCEL</button>
                 @else
             <button class="btn btn-custom-2 w-100 line-height-110 font-size-90 font-size-lg-100 font-size-xxl-110 py-3 neo-bold link create-market-sale-confirmation" style="border-radius:15px">OWN NOW</button>
@@ -66,10 +66,9 @@
         <div class="col-6 d-flex align-items-center">
                     @if($collection->network() == "bsc")
                         @if($token['owner'])
-                            @if($account && strtolower($token['owner']) == strtolower($account))
+                            @if($user && strtolower($token['owner']) == strtolower($user['address']))
             <button class="btn btn-custom-4 w-100 line-height-110 font-size-90 font-size-lg-100 font-size-xxl-110 py-3 font-size-xxl-120 neo-bold create-market-item-confirmation" style="border-radius:15px">SELL NOW</button>
                             @else
-{{--                <button class="btn btn-custom-6 w-100 line-height-110 font-size-90 font-size-lg-100 font-size-xxl-110 py-3 neo-bold make-offer-show-modal" style="border-radius:15px">MAKE OFFER</button>';--}}
             <button class="btn btn-custom-17 w-100 line-height-110 font-size-90 font-size-lg-100 font-size-xxl-110 py-3 neo-bold" style="border-radius:15px" disabled>SOLD</button>
                              @endif
                         @endif

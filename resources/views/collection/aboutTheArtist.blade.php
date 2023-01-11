@@ -5,7 +5,7 @@
         </div>
     </div>
 
-    @if($collection['url_placeholder'] == 'titansofindustry')
+    @if($collection['url'] == 'titansofindustry')
     <div class="bg-white">
         <div class="container py-5">
             <div class="d-flex flex-column flex-md-row">
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    @elseif($collection['url_placeholder'] == 'pathfinders2d')
+    @elseif($collection['url'] == 'pathfinders2d')
     <div class="bg-white">
         <div class="container py-5">
             <div class="d-flex flex-column flex-md-row">
@@ -150,7 +150,7 @@
         </div>
     </div>
 
-    @elseif($collection['url_placeholder'] == 'pathfinders2d' || $collection['url_placeholder'] == 'pathfinders3d' || $collection['url_placeholder'] == 'marauders' || $collection['url_placeholder'] == 'sagesrantcollectibles')
+    @elseif($collection['url'] == 'pathfinders2d' || $collection['url'] == 'pathfinders3d' || $collection['url'] == 'marauders' || $collection['url'] == 'sagesrantcollectibles')
     <div class="bg-white">
         <div class="container py-5">
             <div class="d-flex flex-column flex-md-row">
@@ -225,7 +225,7 @@
         </div>
     </div>
 
-    @elseif($collection['url_placeholder'] == 'genesisblock')
+    @elseif($collection['url'] == 'genesisblock')
     <div class="bg-white">
         <div class="container py-5">
             <div class="d-flex flex-column flex-md-row">
@@ -338,7 +338,7 @@
         </div>
     </div>
 
-    @elseif($collection['url_placeholder'] == 'cryptosolitaire')
+    @elseif($collection['url'] == 'cryptosolitaire')
     <div class="bg-white">
         <div class="container py-5">
             <div class="d-flex flex-column flex-md-row">
@@ -421,7 +421,7 @@
         </div>
     </div>
 
-    @elseif($collection['url_placeholder'] == 'oha')
+    @elseif($collection['url'] == 'oha')
     <div class="bg-white">
         <div class="container py-5">
             <div class="d-flex flex-column flex-lg-row">
@@ -543,7 +543,7 @@
         </div>
     </div>
 
-    @elseif($collection['url_placeholder'] == 'inkvadyrz')
+    @elseif($collection['url'] == 'inkvadyrz')
     <div class="bg-white">
         <div class="container py-5">
             <div class="d-flex flex-column flex-md-row">
@@ -685,7 +685,7 @@
         </div>
     </div>
 
-    @elseif($collection['url_placeholder'] == 'dreadedshrooms')
+    @elseif($collection['url'] == 'dreadedshrooms')
     <div class="bg-white">
         <div class="container py-5">
             <div class="d-flex flex-column flex-md-row">
@@ -746,7 +746,7 @@
         </div>
     </div>
 
-    @elseif($collection['url_placeholder'] == 'boydibil')
+    @elseif($collection['url'] == 'boydibil')
     <div class="bg-white">
         <div class="container py-5">
             <div class="d-flex flex-column flex-md-row">

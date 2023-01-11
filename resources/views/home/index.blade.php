@@ -199,7 +199,7 @@
                             <ul class="splide__list">
                                 @foreach($collections as $collection)
                                 <li class="splide__slide px-2">
-                                    <a href="{{ route('collection.index', $collection['url_placeholder']) }}" class="text-decoration-none">
+                                    <a href="{{ route('collection.index', $collection['url']) }}" class="text-decoration-none">
                                         <div class="card" style="border:1px solid #cccccc; border-radius:10px">
                                             <div class="w-100 background-image-cover" style="background-image:url('{{ $collection['banner'] }}'); padding-top:50%; background-color:#bbbbbb; border-top-left-radius:10px; border-top-right-radius:10px"></div>
                                             <div class="text-center mb-2" style="margin-top:-45px">

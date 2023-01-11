@@ -1,4 +1,4 @@
-@if($collection['url_placeholder'] == 'cryptosolitaire')
+@if($collection['url'] == 'cryptosolitaire')
 <div class="position-relative" style="min-height:calc(100vh - 80px); margin-top:80px; background-position:66% 50%">
     <div class="d-flex w-100 py-4 background-image-cover" style="min-height:calc(100vh - 80px); background-image:url('{{ asset('img/bg/cryptosolitaire.jpg') }}')">
         <div class="container position-relative">
@@ -12,7 +12,7 @@
     </div>
 </div>
 
-@elseif($collection['url_placeholder'] == 'inkvadyrz')
+@elseif($collection['url'] == 'inkvadyrz')
 <div class="position-relative" style="min-height:calc(100vh - 80px); margin-top:80px; background-position:66% 50%">
     <div class="d-flex w-100 py-4 background-image-cover" style="min-height:calc(100vh - 80px); background-image:url('{{ asset('img/bg/inkvadyrz-2.webp') }}'); background-position:bottom">
         <div class="container position-relative">
@@ -31,7 +31,7 @@
 </div>
 
 {{--  titansofindustry  --}}
-@elseif($collection['url_placeholder'] == 'titansofindustry')
+@elseif($collection['url'] == 'titansofindustry')
 <div class="position-relative overflow-hidden" style="min-height:calc(100vh - 80px); margin-top:80px; background-position:66% 50%">
     <div class="bg-color-7 position-absolute h-100" style="top:0; left:0; width:100%; z-index:-1"></div>
     <div class="bg-white position-absolute h-100 d-none d-lg-block" style="top:0; left:70%; width:30%; z-index:-1"></div>
@@ -64,7 +64,7 @@
 @endif
 
 {{--  mustachios  --}}
-@if($collection['url_placeholder'] == 'pathfinders2d')
+@if($collection['url'] == 'pathfinders2d')
 <div class="position-relative" style="min-height:calc(100vh - 80px); margin-top:80px; background-position:66% 50%">
     <div class="d-flex w-100 py-4 background-image-cover" style="min-height:calc(100vh - 80px); background-image:url('{{ asset('img/bg/Mustachios_GridBanner02.webp') }}')">
         <div class="container position-relative">
@@ -83,7 +83,7 @@
 @endif
 
 {{--  genesisblock  --}}
-@if($collection['url_placeholder'] == 'genesisblock')
+@if($collection['url'] == 'genesisblock')
 <div class="position-relative" style="min-height:calc(100vh - 80px); margin-top:80px; background-position:66% 50%">
     <div class="d-flex w-100 py-4 background-image-cover" style="min-height:calc(100vh - 80px); background-image:url('{{ asset('img/genesis-block/bg.webp') }}')">
         <div class="container">
@@ -111,7 +111,7 @@
 @endif
 
 {{--  sagesrantcollectibles  --}}
-@if($collection['url_placeholder'] == 'sagesrantcollectibles')
+@if($collection['url'] == 'sagesrantcollectibles')
 <div class="position-relative" style="min-height:calc(100vh - 80px); margin-top:80px; background-position:66% 50%">
     <div class="d-flex w-100 py-4 background-image-cover" style="min-height:calc(100vh - 80px); background-image:url('{{ asset('img/bg/the-sages-rant-collectibles.webp') }}')">
         <div class="container">
@@ -133,7 +133,7 @@
 @endif
 
 {{--  oha  --}}
-@if($collection['url_placeholder'] == 'oha')
+@if($collection['url'] == 'oha')
 <div class="position-relative" style="margin-top:80px">
     <div class="d-none">
         <div class="d-flex w-100 py-4 background-image-cover" style="min-height:calc(100vh - 80px); background-image:url('{{ asset('img/oha/bg.webp') }}'); background-position:top">
@@ -276,7 +276,7 @@
 @endif
 
 {{--  rewards  --}}
-@if($collection['url_placeholder'] == 'rewards')
+@if($collection['url'] == 'rewards')
 <div class="position-relative" style="min-height:calc(100vh - 80px); margin-top:80px; background-position:66% 50%">
     <div class="d-flex w-100 py-4 background-image-cover" style="min-height:calc(100vh - 80px); background-image:url('{{ asset('img/bg/rewards.gif') }}')">
         <div class="container position-relative">
@@ -292,7 +292,7 @@
 @endif
 
 {{--  Pathfinders 3D & Marauders 2D+3D  --}}
-@if($collection['url_placeholder'] == 'pathfinders3d' || $collection['url_placeholder'] == 'marauders')
+@if($collection['url'] == 'pathfinders3d' || $collection['url'] == 'marauders')
 <div class="" style="min-height:calc(100vh - 80px); margin-top:80px">
     <div class="w-100 bg-color-8 background-image-cover mt-0">
         <div class="container">
@@ -324,7 +324,7 @@
 @endif
 
 {{-- dreaded shrooms  --}}
-@if($collection['url_placeholder'] == 'dreadedshrooms')
+@if($collection['url'] == 'dreadedshrooms')
 <div class="bg-color-23">
     <div class="container">
         <div class="row align-items-center" style="min-height:calc(100vh - 80px); margin-top:80px">
@@ -366,7 +366,7 @@
 @endif
 
 {{-- boy dibil  --}}
-@if($collection['url_placeholder'] == 'boydibil')
+@if($collection['url'] == 'boydibil')
 <div style="background-color:#101327">
     <div class="container">
         <div class="row align-items-center" style="min-height:calc(100vh - 80px); margin-top:80px">
@@ -397,7 +397,7 @@
 @endif
 
 {{-- rascals  --}}
-@if($collection['url_placeholder'] == 'rascals')
+@if($collection['url'] == 'rascals')
 <section id="hero" class="background-image-cover" style="background-image: url('{{ asset('img/collections/rascals/rascals-in-group.png') }}')">
     <div class="container h-100">
         <div class="row align-items-center justify-content-center min-vh-100" style="padding-top:80px">

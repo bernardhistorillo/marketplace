@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MustachioSubscriberController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
@@ -18,8 +17,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::post('/store-mustachio-subscriber', [MustachioSubscriberController::class, 'store']);
 
 Route::get('search', [SearchController::class, 'search']);
 

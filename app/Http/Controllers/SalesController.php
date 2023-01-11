@@ -24,7 +24,6 @@ class SalesController extends Controller
 
     public function getSales($request) {
         $curated = Collection::select('contract_address')
-            ->where('is_curated', 1)
             ->pluck('contract_address');
 
         if(!$request->month && !$request->quarter) {

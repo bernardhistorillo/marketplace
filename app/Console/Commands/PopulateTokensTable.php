@@ -48,20 +48,22 @@ class PopulateTokensTable extends Command
         $collectionInputs = [
             [
                 'name' => 'Titans of Industry',
+                'logo' => 'https://ownly.market/img/collection-logos/titans-of-industry.png',
                 'chain_id' => 56,
                 'contract_address' => '0x804efc52BFa9B85A86219c191d51147566f3B327',
-    //                'contract_address_testnet' => '0xB9f74a918d3bF21be452444e65039e6365DF9B98',
+                'contract_address_testnet' => '0xB9f74a918d3bF21be452444e65039e6365DF9B98',
                 'description' => 'Created by multimedia artist Eugene Oligo, our collaboration entitled Titans of Industry features the pioneers, entrepreneurs, and titans of the crypto space. This collection will surely help you recognize the big ones, their feats, and their impact on the blockchain world.',
                 'token_uri' => 'https://ownly.io/nft/titans-of-industry/api/',
-                'url_placeholder' => 'titans-of-industry'
+                'url' => 'titansofindustry'
             ], [
                 'name' => 'Mustachios Rascals',
+                'logo' => 'https://ownly.market/img/collection-logos/rascals.gif',
                 'chain_id' => 1,
                 'contract_address' => '0x3f5c11fF5C004313A5D1Bb0b5160551E05988569',
-//                'contract_address_testnet' => '0x3235981927E5Ba0283155a98A92c64381C4eB14B',
+                'contract_address_testnet' => '0x3235981927E5Ba0283155a98A92c64381C4eB14B',
                 'description' => 'Another set of Mustachio adventurers are joining the Pathfinders (2D and 3D Genesis Mustachios) and Marauders (Second Generation Mustachios) as they explore the Metaverse! Here comes the Mustachio Rascals, the next generation of our Mustachios. With a maximum supply of 10,000 Generated 3D NFTs, the Mustachio Rascals are the third generation of Mustachios. Of course, you may explore and play Mustachio Quest with your 3D Mustachio Rascal. Holders of these NFTs will also receive a reward of $OWN tokens for 4 quarters. And of course, these Mustachio Rascals will also have their own Augmented Reality soon!',
                 'token_uri' => 'https://ownly.market/api/rascals/',
-                'url_placeholder' => 'rascals'
+                'url' => 'rascals'
             ]
         ];
 
@@ -70,22 +72,22 @@ class PopulateTokensTable extends Command
 
             $collection = Collection::where('chain_id', $collectionInput['chain_id'])
                 ->where(function($where) use ($collectionInput) {
-                    $where->where('contract_address', $collectionInput['contract_address']);
-                    $where->orWhere('contract_address', $collectionInput['contract_address_testnet']);
+                    $where->where('contract_address', (config('app.env') == 'production') ? $collectionInput['contract_address'] : $collectionInput['contract_address_testnet']);
                 })
-                ->where('url_placeholder', $collectionInput['url_placeholder'])
+                ->where('url', $collectionInput['url'])
                 ->first();
 
             if(!$collection) {
                 $collection = new Collection();
             }
 
+            $collection->logo = $collectionInput['logo'];
             $collection->contract_address = (config('app.env') == 'production') ? $collectionInput['contract_address'] : $collectionInput['contract_address_testnet'];
             $collection->chain_id = $collectionInput['chain_id'];
             $collection->name = $collectionInput['name'];
             $collection->description = $collectionInput['description'];
             $collection->token_uri = $collectionInput['token_uri'];
-            $collection->url_placeholder = $collectionInput['url_placeholder'];
+            $collection->url = $collectionInput['url'];
 
             $explorers = [
                 '1' => [
@@ -135,16 +137,20 @@ class PopulateTokensTable extends Command
                     $token->attributes = json_encode($response['attributes']);
 
                     // Create image versions of the token
-                    $last = DB::table('tokens')->latest()->first();
+                    $latest = DB::table('tokens')->latest()->first();
+                    $latest = ($latest) ? $latest->id : 0;
+
                     $thumbnail['original'] = $token->image;
-                    $thumbnail['jpg512'] = HelperController::resizeImage($last->id + 1, $token->image, 'jpg', '512');
-                    $thumbnail['webp512'] = HelperController::resizeImage($last->id + 1, $token->image, 'webp', '512');
-                    $thumbnail['webp256'] = HelperController::resizeImage($last->id + 1, $token->image, 'webp', '256');
+                    $thumbnail['jpg512'] = HelperController::resizeImage($latest + 1, $token->image, 'jpg', '512');
+                    $thumbnail['webp512'] = HelperController::resizeImage($latest + 1, $token->image, 'webp', '512');
+                    $thumbnail['webp256'] = HelperController::resizeImage($latest + 1, $token->image, 'webp', '256');
                     $token->thumbnail = json_encode($thumbnail);
 
                     $token->save();
                 } else {
-                    break;
+                    if($i > 0) {
+                        break;
+                    }
                 }
 
                 $i++;

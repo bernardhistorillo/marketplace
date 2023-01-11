@@ -20,26 +20,7 @@ class Token extends Model
     }
 
     public function ogImage() {
-        $collection = $this->collection();
         $ogImage = $this->thumbnail()['jpg512'];
-
-        if(in_array($collection['url_placeholder'], ['cryptosolitaire', 'inkvadyrz'])) {
-            $tokenId = $this->token_id;
-
-            while(strlen($tokenId) < 4) {
-                $tokenId = '0' . $tokenId;
-            }
-
-            $ogImage = 'https://ownly.io/nft/collection/collection-' . $tokenId . '.png';
-        } else if(in_array($collection['url_placeholder'], ['genesisblock'])) {
-            $ogImage = 'https://ownly.io/nft/genesis-block/api/' . $this->token_id . '/image.png';
-        } else if(in_array($collection['url_placeholder'], ['sagesrantcollectibles'])) {
-            $ogImage = 'https://ownly.io/nft/the-sages-rant-collectibles/api/' . $this->token_id . '/image.png';
-        } else if(in_array($collection['url_placeholder'], ['oha'])) {
-            $ogImage = asset('img/collections/oha/' . $this->token_id . '.jpg');
-        } else if(in_array($collection['url_placeholder'], ['rewards'])) {
-            $ogImage = asset('img/collections/rewards/' . $this->token_id . '.png');
-        }
 
         return $ogImage;
     }
@@ -92,16 +73,14 @@ class Token extends Model
     }
 
     public function favoriteCount() {
-        return Favorite::where('contract_address', $this->collection()['contract_address'])
-            ->where('token_id', $this->token_id)
+        return $this->hasMany(Favorite::class)
             ->where('status', 1)
             ->count();
     }
 
-    public function favoriteStatus($account) {
-        $status = Favorite::where('address', $account)
-            ->where('contract_address', $this->collection()['contract_address'])
-            ->where('token_id', $this->token_id)
+    public function favoriteStatus(User $user) {
+        $status = $this->hasMany(Favorite::class)
+            ->where('user_id', $user['id'])
             ->where('status', 1)
             ->first();
 

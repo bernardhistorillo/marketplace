@@ -22,7 +22,6 @@ class TokenTransferController extends Controller
 {
     public function getSales(Request $request) {
         $curated = Collection::select('contract_address')
-            ->where('is_curated', 1)
             ->pluck('contract_address');
 
         if($request->periodical == "Annual") {

@@ -17,8 +17,7 @@ use Intervention\Image\Facades\Image;
 class HomeController extends Controller
 {
     public function index(Request $request) {
-        $collections = Collection::where('is_curated', 1)
-            ->orderBy('updated_at', 'desc')
+        $collections = Collection::orderBy('updated_at', 'desc')
             ->get();
 
         return view('home.index', compact('collections'));

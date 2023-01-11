@@ -20,7 +20,7 @@ class CreateTokensTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('image');
-            $table->string('thumbnail');
+            $table->text('thumbnail');
             $table->json('attributes');
             $table->unsignedBigInteger('token_transfer_id')->default(0);
             $table->string('trans_bg')->nullable();

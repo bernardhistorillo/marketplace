@@ -22,7 +22,7 @@ class CreateCollectionsTable extends Migration
             $table->string('token_uri');
             $table->string('logo')->nullable();
             $table->string('banner')->nullable();
-            $table->string('url_placeholder');
+            $table->string('url');
             $table->json('abi');
             $table->timestamps();
         });

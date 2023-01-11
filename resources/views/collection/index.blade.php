@@ -2,7 +2,7 @@
 
 @section('title', $collection['name'])
 @section('og_title', $collection['name'])
-@section('og_image', asset('img/og/' . $collection['url_placeholder'] . '.png'))
+@section('og_image', asset('img/og/' . $collection['url'] . '.png'))
 
 @section('content')
     @include('collection.header')
@@ -10,7 +10,7 @@
     <div class="bg-color-18 position-relative">
         <div class="position-absolute" id="collection-tokens-top" style="top:-80px; left:0"></div>
 
-        @if($collection['url_placeholder'] == 'titansofindustry')
+        @if($collection['url'] == 'titansofindustry')
         <div class="bg-color-6 font-size-100 font-size-md-120 collection-section" data-collection="titans-of-industry">
             <div class="container text-white text-center py-3">GET 20% DISCOUNT ON PURCHASES USING OWN TOKEN AS PAYMENT ON NEWLY MINTED TITANS OF INDUSTRY NFTS</div>
         </div>
@@ -19,7 +19,7 @@
         <div class="container pt-4 pb-5">
             <div class="text-end px-md-3" id="view-options-container">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-custom-13 d-flex align-items-center" id="filter-by-properties" data-collection="{{ $collection['url_placeholder'] }}" style="height:47.2px" data-bs-toggle="collapse" data-bs-target="#collapse-properties" aria-expanded="false" aria-controls="collapse-properties">
+                    <button type="button" class="btn btn-custom-13 d-flex align-items-center" id="filter-by-properties" data-collection="{{ $collection['url'] }}" style="height:47.2px" data-bs-toggle="collapse" data-bs-target="#collapse-properties" aria-expanded="false" aria-controls="collapse-properties">
                         <i class="fas fa-filter font-size-130 pe-2 "></i>
                         <span class="font-size-90">Filter by Properties</span>
                         <span class="badge bg-color-3 ms-2" id="property-filter-count"></span>
@@ -106,16 +106,16 @@
                 </div>
             </div>
 
-            <div class="row mt-4" id="token-cards-container" data-url="{{ route('collection.getTokens', $collection['url_placeholder']) }}">
+            <div class="row mt-4" id="token-cards-container" data-url="{{ route('collection.getTokens', $collection['url']) }}">
                 @include('collection.tokenCards')
             </div>
         </div>
 
-        @if($collection['url_placeholder'] != 'rewards' && $collection['url_placeholder'] != 'rascals')
+        @if($collection['url'] != 'rewards' && $collection['url'] != 'rascals')
             @include('collection.aboutTheArtist')
         @endif
 
-        @if($collection['url_placeholder'] == 'pathfinders2d')
+        @if($collection['url'] == 'pathfinders2d')
         <div class="bg-white py-5">
             <div class="container pt-3 pb-5">
                 <div class="font-size-150 neo-bold mb-4 pb-2" id="meet-the-artist-text">RARITY CHART</div>

@@ -113,14 +113,14 @@ class ProfileController extends Controller
     }
 
     public function getOwnedTokens(Request $request, $account) {
-        $tokens = Token::select('tokens.id', 'tokens.token_id', 'collection_id', 'tokens.name', 'tokens.description', 'image', 'thumbnail', 'attributes', 'priority', 'to', 'transaction_hash', 'collections.contract_address', 'abi', 'collections.chain_id', 'supply', 'url_placeholder')
+        $tokens = Token::select('tokens.id', 'tokens.token_id', 'collection_id', 'tokens.name', 'tokens.description', 'image', 'thumbnail', 'attributes', 'priority', 'to', 'transaction_hash', 'collections.contract_address', 'abi', 'collections.chain_id', 'supply', 'url')
             ->leftJoin('collections', 'collection_id', 'collections.id')
             ->join('token_transfers', function($join) use ($account) {
                 $join->on('token_transfers.id', 'token_transfer_id');
                 $join->where('to', 'LIKE', $account);
             });
 
-        $rewardTokens = Token::select('tokens.id', 'tokens.token_id', 'collection_id', 'tokens.name', 'tokens.description', 'image', 'thumbnail', 'attributes', 'priority', 'to', 'transaction_hash', 'collections.contract_address', 'abi', 'collections.chain_id', 'supply', 'url_placeholder')
+        $rewardTokens = Token::select('tokens.id', 'tokens.token_id', 'collection_id', 'tokens.name', 'tokens.description', 'image', 'thumbnail', 'attributes', 'priority', 'to', 'transaction_hash', 'collections.contract_address', 'abi', 'collections.chain_id', 'supply', 'url')
             ->where('collection_id', 8)
             ->leftJoin('collections', 'collection_id', 'collections.id')
             ->join('token_transfers', function($join) use ($account) {
@@ -137,7 +137,7 @@ class ProfileController extends Controller
     }
 
     public function getFavoritedTokens(Request $request, $account) {
-        return Token::select('tokens.id', 'tokens.token_id', 'collection_id', 'tokens.name', 'tokens.description', 'image', 'thumbnail', 'attributes', 'priority', 'collections.contract_address', 'abi', 'collections.chain_id', 'supply', 'url_placeholder')
+        return Token::select('tokens.id', 'tokens.token_id', 'collection_id', 'tokens.name', 'tokens.description', 'image', 'thumbnail', 'attributes', 'priority', 'collections.contract_address', 'abi', 'collections.chain_id', 'supply', 'url')
             ->leftJoin('collections', 'collection_id', 'collections.id')
             ->join('favorites', function($join) use ($account) {
                 $join->on('collections.contract_address', 'LIKE', 'favorites.contract_address');

@@ -13,32 +13,14 @@ use Illuminate\Support\Facades\Log;
 class CollectionController extends Controller
 {
     public function index(Request $request) {
-        $network = $request->network;
-        $contractAddress = $request->collection;
+        $collection = $request->collection;
 
-        $redirect = $this->getRedirect($contractAddress);
-        if($redirect) {
-            return redirect()->route('collection.index', $redirect);
-        }
-
-        $collection = Collection::where('url_placeholder', $contractAddress)
+        $collection = Collection::where('url', $collection)
             ->first();
-
-        if(!$collection) {
-            $collection = Collection::where('chain_id', $network)
-                ->where('contract_address', 'LIKE',  $contractAddress)
-                ->first();
-        }
 
         if(!$collection) {
             abort(404);
         }
-
-        // if collection is the 3D version of mustachios
-//        if($collection['id'] == 11) {
-//            $tokenController = new TokenController();
-//            $tokenController->checkForNewlyMintedMustachio3DTokens();
-//        }
 
         $filters = ($request->filters) ? json_decode($request->filters, true) : [];
         $tokens = $collection->tokens($filters);
@@ -57,7 +39,7 @@ class CollectionController extends Controller
     }
 
     public function getTokens(Request $request, $collection) {
-        $collection = Collection::where('url_placeholder', $collection)
+        $collection = Collection::where('url', $collection)
             ->first();
 
         $filters = json_decode($request->filters, true);
@@ -75,8 +57,7 @@ class CollectionController extends Controller
     }
 
     public function getCollections(Request $request) {
-        $collections = Collection::where('is_curated', 1)
-            ->get();
+        $collections = Collection::all();
 
         return response()->json([
             'collections' => $collections
@@ -119,7 +100,7 @@ class CollectionController extends Controller
         if($collection) {
             $collection->name = $request->name;
             $collection->description = $request->description;
-            $collection->url_placeholder = $request->url;
+            $collection->url = $request->url;
             $collection->properties = $request->properties;
 
             $logo = null;
@@ -220,39 +201,5 @@ class CollectionController extends Controller
         return response()->json([
             'launchpad_token' => $launchpad_token
         ]);
-    }
-
-    public function getRedirect($collection) {
-        $redirect = null;
-
-        if(in_array($collection, ['mustachio', 'mustachios'])) {
-            $redirect = 'pathfinders2d';
-        } else if($collection == '3dmustachios') {
-            $redirect = 'pathfinders3d';
-        } else if($collection == 'freefall') {
-            $redirect = 'oha/1';
-        } else if($collection == 'comfortzone') {
-            $redirect = 'oha/2';
-        } else if($collection == 'alteredperspective') {
-            $redirect = 'oha/3';
-        } else if($collection == 'livewithit') {
-            $redirect = 'oha/4';
-        } else if($collection == 'imsorry') {
-            $redirect = 'oha/5';
-        } else if($collection == 'leavemealone') {
-            $redirect = 'oha/6';
-        } else if($collection == 'sleepless') {
-            $redirect = 'oha/7';
-        } else if($collection == 'dreadedshromms') {
-            $redirect = 'dreadedshrooms';
-        } else if($collection == 'titans-of-industry') {
-            $redirect = 'titansofindustry';
-        } else if($collection == 'inkvadryz') {
-            $redirect = 'inkvadyrz';
-        } else if($collection == 'genesis-block') {
-            $redirect = 'genesisblock';
-        }
-
-        return $redirect;
     }
 }

@@ -9,9 +9,9 @@
         <div class="row mb-5 token-card mt-3 mt-md-4">
             <div class="col-md-6 col-xxl-5 pe-lg-3 pe-xl-4">
                 <div id="token-asset-container">
-                    @if($collection['url_placeholder'] == 'pathfinders3d' || ($collection['url_placeholder'] == 'marauders' && ($token['token_id'] <= 175 || in_array($token['token_id'], [177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,201,250,251,252,254,255,258,260,261,286,298]))))
+                    @if($collection['url'] == 'pathfinders3d' || ($collection['url'] == 'marauders' && ($token['token_id'] <= 175 || in_array($token['token_id'], [177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,201,250,251,252,254,255,258,260,261,286,298]))))
                     <div class="w-100 shadow-sm border-1 position-relative skeleton-loading mb-3" style="padding-top:100%; border:1px solid #cccccc; background-color:rgba(0,0,0,0.01); border-radius:10px">
-                        @if($collection['url_placeholder'] == 'marauders')
+                        @if($collection['url'] == 'marauders')
                         <div class="position-absolute" style="bottom:0; left:0; width:22%; z-index:1">
                             <a href="{{ $token->thumbnail()['original'] }}" data-fancybox>
                                 <img src="{{ $token->thumbnail()['webp512'] }}" class="w-100" alt="{{ $token['name'] }}" style="border-radius:0 10px 0 10px" />
@@ -33,101 +33,6 @@
                 <div class="mt-4">
                     <p class="font-size-90 text-color-7 text-center text-md-start">Features &amp; Additional Assets</p>
                     <div class="row justify-content-center justify-content-md-start px-1">
-                        @if($collection['url_placeholder'] == 'marauders' || $collection['url_placeholder'] == 'pathfinders2d')
-                        <div class="col-3 col-xl-2 px-2">
-                            <div class="card w-100 position-relative mb-2" style="padding-top:100%; border-radius:10px">
-                                <a href="{{ $token->thumbnail()['original'] }}?v=1" data-fancybox>
-                                    <div class="position-absolute w-100 h-100 text-center" style="top:0; width:0">
-                                        <img src="{{ $token->thumbnail()['webp256'] }}?v=1" class="h-100" alt="{{ $token['name'] }}" />
-                                    </div>
-                                </a>
-                            </div>
-
-                            <p class="text-color-7 font-size-60 text-center px-1">Hand-drawn 2D&nbsp;PFP</p>
-                        </div>
-
-                        <div class="col-3 col-xl-2 px-2">
-                            <div class="card w-100 position-relative mb-2" style="padding-top:100%; border-radius:10px">
-                                <a href="{{ asset('nft/mustachios-without-bg/' . $token['token_id'] . '.png') }}" data-fancybox>
-                                    <div class="position-absolute w-100 h-100 text-center" style="top:0; width:0">
-                                        <img src="{{ asset('nft/mustachios-without-bg/' . $token['token_id'] . '.png') }}" class="h-100" alt="{{ $token['name'] }}" />
-                                    </div>
-                                </a>
-                            </div>
-
-                            <p class="text-color-7 font-size-60 text-center px-1">Transparent Background</p>
-                        </div>
-
-                        <div class="col-3 col-xl-2 px-2">
-                            <div class="card w-100 position-relative overflow-hidden mb-2" style="padding-top:100%; border-radius:10px">
-                                <a href="https://mustachioverse.com/ar" target="_blank" rel="noreferrer">
-                                    <div class="position-absolute w-100 h-100 text-center" style="top:0; width:0">
-                                        <img src="{{ asset('img/mustachios/augmented-reality.png') }}" class="w-100 h-100" alt="Augmented Reality" />
-                                    </div>
-                                </a>
-                            </div>
-
-                            <p class="text-color-7 font-size-60 text-center px-1">Augmented Reality</p>
-                        </div>
-                        @endif
-
-                        @if($collection['url_placeholder'] == 'marauders' || $collection['url_placeholder'] == 'pathfinders2d' || $collection['url_placeholder'] == 'rascals')
-                        <div class="col-3 col-xl-2 px-2">
-                            <div class="card w-100 position-relative overflow-hidden mb-2" style="padding-top:100%; border-radius:10px">
-                                <a href="https://mustachioverse.com" target="_blank" rel="noreferrer">
-                                    <div class="position-absolute w-100 h-100 text-center" style="top:0; width:0">
-                                        <img src="{{ asset('img/mustachios/mustachio-quest.png') }}" class="w-100 h-100" alt="Mustachio Quest" />
-                                    </div>
-                                </a>
-                            </div>
-
-                            <p class="text-color-7 font-size-60 text-center px-1">Mustachio Quest</p>
-                        </div>
-                        @endif
-
-                        @if($collection['url_placeholder'] == 'pathfinders2d' || $collection['url_placeholder'] == 'pathfinders3d' || $collection['url_placeholder'] == 'marauders')
-                        <div class="col-3 col-xl-2 px-2">
-                            <div class="card w-100 position-relative overflow-hidden mb-2" style="padding-top:100%; border-radius:10px">
-                                <a href="https://mustachioverse.com/ar" target="_blank" rel="noreferrer">
-                                    <div class="position-absolute w-100 h-100 text-center" style="top:0; width:0">
-                                        <img src="{{ asset('img/mustachios/land-sale.png') }}" class="w-100 h-100" alt="Mutachio Quest Land Sale" />
-                                    </div>
-                                </a>
-                            </div>
-
-                            <p class="text-color-7 font-size-60 text-center px-1">Land Sale Discount</p>
-                        </div>
-                        @endif
-
-                        @if($collection['url_placeholder'] == 'pathfinders2d')
-                        <div class="col-3 col-xl-2 px-2">
-                            <div class="card w-100 position-relative overflow-hidden mb-2" style="padding-top:100%; border-radius:10px">
-                                <a href="https://tales.mustachioverse.com" target="_blank" rel="noreferrer">
-                                    <div class="position-absolute w-100 h-100 text-center" style="top:0; width:0">
-                                        <img src="{{ asset('img/mustachios/the-sages-rant.png') }}" class="h-100" alt="The Sages Rant" />
-                                    </div>
-                                </a>
-                            </div>
-
-                            <p class="text-color-7 font-size-60 text-center px-1">The Sages Rant</p>
-                        </div>
-                        @endif
-
-                        @if($collection['url_placeholder'] == 'dreadedshrooms')
-                        <div class="col-3 col-xl-2 px-2">
-                            <div class="card w-100 position-relative overflow-hidden mb-2" style="padding-top:100%; border-radius:10px">
-                                <a href="{{ asset('img/dreaded-shrooms/caricature-isma.png') }}" data-fancybox="caricature" data-caption="Sample Caricature<br/><b>Ismael Jerusalem, Founder & CEO - Ownly</b>">
-                                    <div class="position-absolute w-100 h-100 text-center" style="top:0; width:0">
-                                        <img src="{{ asset('img/dreaded-shrooms/caricature-isma.png') }}" class="h-100" alt="The Sages Rant" />
-                                    </div>
-                                </a>
-                                <a href="{{ asset('img/dreaded-shrooms/caricature-rico.png') }}" class="d-none" data-fancybox="caricature" data-caption="Dreaded Shroom: Zoop Double B Holder<br/><b>Rico Zuñiga, Co-Founder & CTO - SparkPoint Technologies Inc.</b>"></a>
-                            </div>
-
-                            <p class="text-color-7 font-size-60 text-center px-1">Free Custom Caricature to First Owners</p>
-                        </div>
-                        @endif
-
                         <div class="col-3 col-xl-2 px-2">
                             <div class="card w-100 position-relative overflow-hidden mb-2" style="padding-top:100%; border-radius:10px">
                                 <a href="{{ asset('img/ownly/discount.png') }}" data-fancybox>
@@ -177,7 +82,7 @@
 
             <div class="col-md-6 col-xxl-7 ps-lg-3 ps-xl-4 mt-4">
                 <div class="font-size-120 text-center text-md-start mb-2">
-                    <a href="{{ route('collection.index', $collection['url_placeholder']) }}" class="link-color-4 text-decoration-none neo-bold">{{ $collection['name'] }}</a>
+                    <a href="{{ route('collection.index', $collection['url']) }}" class="link-color-4 text-decoration-none neo-bold">{{ $collection['name'] }}</a>
                 </div>
 
                 <div class="d-flex justify-content-between">
@@ -317,7 +222,7 @@
                                 <div class="row">
                                     @foreach($token->properties() as $property)
                                     <div class="col-md-6 col-xl-4 p-2">
-                                        <a href="{{ route('collection.index', $collection['url_placeholder']) . '?filters=[{"property":"' . $property['trait_type'] . '","value":"' . $property['value'] . '"}]' }}" class="text-decoration-none">
+                                        <a href="{{ route('collection.index', $collection['url']) . '?filters=[{"property":"' . $property['trait_type'] . '","value":"' . $property['value'] . '"}]' }}" class="text-decoration-none">
                                             <div class="card bg-light h-100">
                                                 <div class="card-body h-100">
                                                     <div class="d-flex justify-content-center align-items-center h-100">
@@ -344,45 +249,45 @@
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree">
                             <div class="accordion-body">
-                                @if($collection['url_placeholder'] == 'titansofindustry')
+                                @if($collection['url'] == 'titansofindustry')
                                 <div>
                                     Created by multimedia artist Eugene Oligo, our collaboration entitled Titans of Industry features the pioneers, entrepreneurs, and titans of the crypto space. This collection will surely help you recognize the big ones, their feats, and their impact on the blockchain world.
                                 </div>
-                                @elseif($collection['url_placeholder'] == 'oha')
+                                @elseif($collection['url'] == 'oha')
                                 <div>
                                     Ownly House of Art (OHA) is a collection of tokenized physical art. It provides a solution to traditional artists that needs more exposure and collectors that need a frictionless acquisition of high-value physical art pieces. OHA, through the use of NFTs, creates a seamless, transparent, and more efficient sales process.
                                 </div>
-                                @elseif($collection['url_placeholder'] == 'genesisblock')
+                                @elseif($collection['url'] == 'genesisblock')
                                 <div>
                                     <p>Marso presents another collection of work combining the elegance of geometry and a vibrant color palette dubbed as the ‘Genesis Block’ of Blockchain, reminiscent of the ceiling of the famous Sistine Chapel.</p>
                                     <p>This collection can both stand alone as an individual piece or as a whole with every piece being unique leading to a culmination of the ‘creation’ and establishing of the whole blockchain space.</p>
                                     <p>With that being said, the whole collection can be viewed starting from the bottom left (Creation), bottom middle (Distribution), bottom right, (Progress), top left (Prosperity), top middle (Liberty & Freedom), top right (Community), middle right (Immersion), middle right (Integration), and ends in the middle (Eden).</p>
                                 </div>
-                                @elseif($collection['url_placeholder'] == 'pathfinders2d')
+                                @elseif($collection['url'] == 'pathfinders2d')
                                 <div>
                                     Boii Mustache, the artist behind these avatars, describes them as 100 mustached explorers living in a hidden, mysterious, and magical island called MustachioVerse. Each of these Mustachios lived and thrived for over a hundred years, waiting for their turn to tell their own unique tale of adventure. One day, ten brave Mustachios discovered a mysterious torn journal written by The Prospector — the first-ever Mustachio who conquered every possible feat in their universe. Stories have been told about his glory, but no one knows The Prospector’s identity. His Lost Diary mentioned that he discovered 9 valuable artifacts and a precious golden ‘stache — the key in solving the greatest mystery in the land: why do they all have a mustache?
                                 </div>
-                                @elseif($collection['url_placeholder'] == 'cryptosolitaire')
+                                @elseif($collection['url'] == 'cryptosolitaire')
                                 <div>
                                     Digital playing card deck created by Filipino artist, Chen Naje, also known as @chenandink on Instagram. For the clubs, tropical leaves to represent summer is used. For the spades, Chen Naje used maple leaves as symbol for the fall season. For the diamonds, he used ice crystals to represent winter which somehow also look like raw diamonds. Lastly, flowers for the hearts to represent their bloom during spring.
                                 </div>
-                                @elseif($collection['url_placeholder'] == 'inkvadyrz')
+                                @elseif($collection['url'] == 'inkvadyrz')
                                 <div>
                                     The deck is made up of twenty Cryptoart cards composed of three categories: common, uncommon, rare, and legendary. The card’s category shows its rarity, value, and benefits. The legendary cards are priced higher than the rare and common cards. There are also only 2 legendary cards compared to 5 rare cards, 6 uncommon cards, and 7 common cards. Most importantly, owning a legendary card gives the collector the possibility to get the reward piece by getting 9 other cards in the collection.
                                 </div>
-                                @elseif($collection['url_placeholder'] == 'rewards')
+                                @elseif($collection['url'] == 'rewards')
                                 <div>
                                     The collection composes of Ownly rewards for Private Sale and IDO participants, and top collectors for both Mustachio and Inkvadyrz collections.
                                 </div>
-                                @elseif($collection['url_placeholder'] == 'sagesrantcollectibles')
+                                @elseif($collection['url'] == 'sagesrantcollectibles')
                                 <div>
                                     The Sages Rant Collectibles is a collection of single-edition, legendary pieces that can be acquired by participating in our auction happening this Q4 of 2021. Holders of these backgrounds and artifacts receive distinct strengths and can boost the rarity of their Mustachios — granting magical abilities and unlimited potentials.
                                 </div>
-                                @elseif($collection['url_placeholder'] == 'pathfinders3d' || $collection['url_placeholder'] == 'marauders')
+                                @elseif($collection['url'] == 'pathfinders3d' || $collection['url'] == 'marauders')
                                 <div>
                                     A collection of 3D mustached NFT avatars called Mustachios created by the one and only Boii Mustache. The tales and adventures of these NFT avatars inspired Ownly’s upcoming play-and-earn game, Mustachio Quest. Check out <a href="https://mustachioverse.com" class="link-color-4">mustachioverse.com</a> for more details.
                                 </div>
-                                @elseif($collection['url_placeholder'] == 'dreadedshrooms')
+                                @elseif($collection['url'] == 'dreadedshrooms')
                                 <div>
                                     A one-of-a-kind concept, Dreaded Shrooms is perfect for collectors looking for unique and joy-sprouting art pieces. It’s good for the soul, that’s for sure.
                                 </div>
@@ -493,7 +398,7 @@
     </style>
 
     <div id="token-page-about-the-artist">
-        @if($collection['url_placeholder'] != 'rewards' && $collection['url_placeholder'] != 'rascals')
+        @if($collection['url'] != 'rewards' && $collection['url'] != 'rascals')
             @include('collection.aboutTheArtist')
         @endif
     </div>
